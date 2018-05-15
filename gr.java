@@ -29,6 +29,13 @@ class MyPanel extends JPanel implements MouseInputListener {
 		}
 		g.drawImage(image, 0, 0, null);
 	}
+	public static double[][] mulm(double[][] a, double[][] b) {
+		if(a[0].length != b.length) {
+			throw new IllegalArgumentException("Matrices cannot multiply!");
+		}
+		double[][] result = new double[0][0];
+		return result;
+	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		mousePos = new Point(e.getX(), e.getY());
