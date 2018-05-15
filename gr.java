@@ -4,8 +4,9 @@ import java.awt.image.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
 class MyPanel extends JPanel implements MouseInputListener {
-	Point mousePos = new Point(0, 0);
+	Point mousePos = null;
 	public MyPanel() {
+		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
 	@Override
@@ -14,16 +15,19 @@ class MyPanel extends JPanel implements MouseInputListener {
 		BufferedImage image = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 		for(int y = 0; y < 400; y++) {
 			for(int x = 0; x < 400; x++) {
-				float blue = 1f - Math.min(0.9f, (float)Math.sqrt(Math.pow(x - mousePos.x, 2) + Math.pow(y - mousePos.y, 2)) / 200f);
+				float blue;
+				if(mousePos != null) {
+					blue = 1f - Math.min(0.9f, (float)Math.sqrt(
+					Math.pow(x - mousePos.x, 2) + Math.pow(y - mousePos.y, 2)) / 200f);
+				} else {
+					blue = 1f - Math.min(0.9f, (float)Math.sqrt(
+					Math.pow(x - 200, 2) + Math.pow(y - 200, 2)) / 200f);
+				}
 				Color c = new Color(x / 399f, y / 399f, blue);
 				image.setRGB(x, y, c.getRGB());
 			}
 		}
 		g.drawImage(image, 0, 0, null);
-		if(mousePos != null) {
-			g.setColor(Color.WHITE);
-			g.drawRect(mousePos.x - 10, mousePos.y - 10, 20, 20);
-		}
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
@@ -38,6 +42,8 @@ class MyPanel extends JPanel implements MouseInputListener {
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
+		mousePos = null;
+		repaint();
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
