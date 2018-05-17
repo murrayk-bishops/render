@@ -33,7 +33,16 @@ class MyPanel extends JPanel implements MouseInputListener {
 		if(a[0].length != b.length) {
 			throw new IllegalArgumentException("Matrices cannot multiply!");
 		}
-		double[][] result = new double[0][0];
+		double[][] result = new double[b[0].length][a.length];
+		for(int bCol = 0; bCol < b[0].length; bCol++) {
+			for(int aRow = 0; aRow < a.length; aRow++) {
+				double dot = 0;
+				for(int aVal = 0; aVal < a[0].length; aVal++) {
+					dot += a[aRow][aVal] * b[aVal][bCol];
+				}
+				result[aRow][bCol] = dot;
+			}
+		}
 		return result;
 	}
 	@Override
