@@ -5,6 +5,17 @@ import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
 class MyPanel extends JPanel implements MouseInputListener {
 	Point mousePos = null;
+	double[][] cubeMesh = {
+			{0.5d, 0.5d, 3d},
+			{0.5d, 0.5d, 4d},
+			{0.5d, 2d, 3d},
+			{0.5d, 2d, 4d},
+			{2d, 0.5d, 3d},
+			{2d, 0.5d, 4d},
+			{2d, 2d, 3d},
+			{2d, 2d, 4d},
+	};
+			
 	public MyPanel() {
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -13,18 +24,22 @@ class MyPanel extends JPanel implements MouseInputListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		BufferedImage image = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
-		for(int y = 0; y < 400; y++) {
-			for(int x = 0; x < 400; x++) {
-				float blue;
-				if(mousePos != null) {
-					blue = 1f - Math.min(0.9f, (float)Math.sqrt(
-					Math.pow(x - mousePos.x, 2) + Math.pow(y - mousePos.y, 2)) / 200f);
-				} else {
-					blue = 1f - Math.min(0.9f, (float)Math.sqrt(
-					Math.pow(x - 200, 2) + Math.pow(y - 200, 2)) / 200f);
-				}
-				Color c = new Color(x / 399f, y / 399f, blue);
-				image.setRGB(x, y, c.getRGB());
+		for(int x = 0; x < 400; x++) {
+			for(int y = 0; y < 400; y++) {
+				image.setRGB(x, y, Color.WHITE.getRGB());
+			}
+		}
+		double dep;
+		if(mousePos == null) {
+			dep = 0d;
+		} else {
+			dep = (double)mousePos.y;
+		}
+		for(int v = 0; v < cubeMesh.length; v++) {
+			double x = cubeMesh[v][0] / (cubeMesh[v][2] - dep / 100);
+			double y = cubeMesh[v][1] / (cubeMesh[v][2] - dep / 100);
+			if(x < 1d && x > -1d && y < 1d && y > -1d) {
+				image.setRGB((int)(x * 200 + 200), (int)(y * -200 + 200), new Color(0f, 0f, 1f).getRGB());
 			}
 		}
 		g.drawImage(image, 0, 0, null);
