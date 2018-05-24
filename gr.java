@@ -15,7 +15,24 @@ class MyPanel extends JPanel implements MouseInputListener {
 			{2d, 2d, 3d},
 			{2d, 2d, 4d},
 	};
-			
+	double[][] tetraMesh = {
+			{0f, -1f, 0f},
+			{0f, 0f, 0f},
+			{1f, 0f, 0f},
+			{0f, 0f, 1f},
+			{-1f, 0f, 0f},
+			{0f, 0f, 0f},
+			{0f, 0f, 1f},
+			{0f, 1f, 0f},
+			{0f, 0f, -1f},
+			{0f, 0f, 0f},
+			{0f, 1f, 0f},
+			{1f, 0f, 0f},
+			{0.577350f, 0.577350f, 0.577350f},
+			{0f, 0f, 1f},
+			{1f, 0f, 0f},
+			{0f, 1f, 0f}
+	};
 	public MyPanel() {
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -35,11 +52,15 @@ class MyPanel extends JPanel implements MouseInputListener {
 		} else {
 			dep = (double)mousePos.y;
 		}
-		for(int v = 0; v < cubeMesh.length; v++) {
-			double x = cubeMesh[v][0] / (cubeMesh[v][2] - dep / 100);
-			double y = cubeMesh[v][1] / (cubeMesh[v][2] - dep / 100);
-			if(x < 1d && x > -1d && y < 1d && y > -1d) {
-				image.setRGB((int)(x * 200 + 200), (int)(y * -200 + 200), new Color(0f, 0f, 1f).getRGB());
+		for(int t = 0; t < tetraMesh.length / 4; t++) {
+			for(int v = 1; v <= 3; v++) {
+				int i = 4 * t + v;
+				System.out.println(tetraMesh[i][0]);
+				double x = (tetraMesh[i][0] + 2) / (tetraMesh[i][2] - dep / 100);
+				double y = (tetraMesh[i][1] + 2) / (tetraMesh[i][2] - dep / 100);
+				if(x < 1d && x > -1d && y < 1d && y > -1d) {
+					image.setRGB((int)(x * 200 + 200), (int)(y * -200 + 200), new Color(0f, 0f, 1f).getRGB());
+				}
 			}
 		}
 		g.drawImage(image, 0, 0, null);
