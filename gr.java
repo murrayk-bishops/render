@@ -52,14 +52,27 @@ class MyPanel extends JPanel implements MouseInputListener {
 		} else {
 			dep = (double)mousePos.y;
 		}
+		double[][][] tris = new double[tetraMesh.length / 4][3][2];
 		for(int t = 0; t < tetraMesh.length / 4; t++) {
+			double[][] tri = new double[3][2];
 			for(int v = 1; v <= 3; v++) {
 				int i = 4 * t + v;
 				double x = (tetraMesh[i][0] + 1) / (tetraMesh[i][2] + dep / 100);
 				double y = (tetraMesh[i][1] + 1) / (tetraMesh[i][2] + dep / 100);
+				double[] vert = {x, y};
+				tri[v - 1] = vert;
 				if(x < 1d && x > -1d && y < 1d && y > -1d) {
 					image.setRGB((int)(x * 200 + 200), (int)(y * -200 + 200), new Color(0f, 0f, 1f).getRGB());
 				}
+			}
+			tris[t] = tri;
+		}
+		for(int t = 0; t < tris.length; t++) {
+			System.out.println(t);
+			for(int v = 0; v < tris[t].length; v++) {
+				System.out.println(v);
+				System.out.println(tris[t][v][0]);
+				System.out.println(tris[t][v][1]);
 			}
 		}
 		g.drawImage(image, 0, 0, null);
