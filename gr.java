@@ -70,9 +70,9 @@ class MyPanel extends JPanel implements MouseInputListener {
 		for(int t = 0; t < tris.length; t++) {
 			System.out.println(t);
 			for(int v = 0; v < tris[t].length; v++) {
-				System.out.println(v);
-				System.out.println(tris[t][v][0]);
-				System.out.println(tris[t][v][1]);
+				//System.out.println(v);
+				//System.out.println(tris[t][v][0]);
+				//System.out.println(tris[t][v][1]);
 			}
 		}
 		g.drawImage(image, 0, 0, null);
